@@ -12,11 +12,10 @@ jobs:
      # build the application image
      - run: docker build -t dimejii/tstg:$CIRCLE_BRANCH .
 
-     # deploy the image
-     - run: docker push dimejii/tstg:$CIRCLE_BRANCH
+     # save the image as a tar file
+     - run: docker save dimejii/tstg:$CIRCLE_BRANCH -o my-image.tar
 
-workflows:
-  sfbuild:
-    jobs:
-      - build
-    when: always
+     # save the tar file as an artifact
+     - store_artifacts:
+         path: my-image.tar
+         destination: my-image-artifact
